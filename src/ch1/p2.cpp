@@ -4,6 +4,11 @@
 
 using namespace std;
 
+/**
+ * @brief Check Permutation
+ *
+ * Given two strings, decide if one is permutation of the other.
+ */
 bool is_permutation(string const & s1, string const & s2)
 {
   if (s1.size() != s2.size()) return false;

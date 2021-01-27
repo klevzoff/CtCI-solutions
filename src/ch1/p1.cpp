@@ -3,6 +3,11 @@
 
 using namespace std;
 
+/**
+ * @brief Is Unique
+ *
+ * Determine if a string has all unique characters.
+ */
 bool all_unique_chars(string const & s)
 {
   bool flag[256]{false};
