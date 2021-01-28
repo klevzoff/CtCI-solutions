@@ -5,7 +5,7 @@ project(CtCI-solutions CXX)
 set(CMAKE_CXX_STANDARD 17 CACHE STRING "")
 enable_testing()
 
-set(common_dirs common)
+set(common_dirs ${CMAKE_CURRENT_SOURCE_DIR}/common)
 set(sanitizer_flags -fsanitize=address -fsanitize=undefined)
 set(extra_compile_flags -Wall -Wextra -Werror ${sanitizer_flags})
 set(extra_link_flags ${sanitizer_flags})
@@ -20,5 +20,5 @@ macro(add_problem chapter problem)
 endmacro()
 
 add_subdirectory(ch1)
-#add_subdirectory(ch2)
+add_subdirectory(ch2)
 

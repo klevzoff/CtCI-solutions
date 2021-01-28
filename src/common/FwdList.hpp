@@ -2,28 +2,27 @@
 #include <iostream>
 
 /**
- * @brief Doubly-linked list
+ * @brief Singly-linked list
  *
- * An extremely simplified doubly-linked list data structure
+ * An extremely simplified singly-linked list data structure
  * that facilitates construction, destruction and comparison,
  * but otherwise provides no functionality and requires manual
  * pointer manipulation. Suited to interview practice problems.
  */
 template <typename T>
-struct List
+struct FwdList
 {
   struct Node
   {
-    Node * prev{};
     Node * next{};
     T val{};
   };
 
   Node * head{};
 
-  List() {}
+  FwdList() {}
 
-  List(std::initializer_list<T> const & in)
+  FwdList(std::initializer_list<T> const & in)
   {
     Node * prev = nullptr; 
     for (auto const & v : in)
@@ -33,14 +32,13 @@ struct List
       if (prev)
       {
         prev->next = curr;
-        curr->prev = prev;
       }
       if (!head) head = curr;
       prev = curr;
     }
   }
 
-  List(List const & other)
+  FwdList(FwdList const & other)
   {
     if (this == &other) return;
     Node * prev = nullptr; 
@@ -51,16 +49,15 @@ struct List
       if (prev)
       {
         prev->next = curr;
-        curr->prev = prev;
       }
       if (!head) head = curr;
       prev = curr;
     }
   }
 
-  List(List && other) = default;
+  FwdList(FwdList && other) = default;
 
-  bool operator==(List const & other)
+  bool operator==(FwdList const & other)
   {
     Node * lnode = head;
     Node * rnode = other.head;
@@ -73,7 +70,7 @@ struct List
     return !lnode && !rnode;
   }
 
-  ~List()
+  ~FwdList()
   {
     while (head)
     {
@@ -83,7 +80,7 @@ struct List
     }
   }
 
-  friend std::ostream & operator<<(std::ostream & os, List<T> const & l)
+  friend std::ostream & operator<<(std::ostream & os, FwdList<T> const & l)
   {
     Node * curr = l.head;
     os << "head -> ";

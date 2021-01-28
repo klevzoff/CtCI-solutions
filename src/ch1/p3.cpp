@@ -37,13 +37,13 @@ void urlify(string & s, size_t len)
   } while (rit != wit);
 }
 
-bool test(string const & s, string const & e)
+bool test(string s, string const & e)
 {
+  size_t const len = s.length();
   size_t const num_space = count(begin(s), end(s), ' ');
-  string s_copy(s);
-  s_copy.resize(s.size() + 2 * num_space, ' ');
-  urlify(s_copy, s.size());
-  return s_copy == e;
+  s.resize(len + 2 * num_space, ' ');
+  urlify(s, len);
+  return s == e;
 }
 
 int main()
