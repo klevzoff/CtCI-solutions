@@ -22,6 +22,8 @@ struct FwdList
 
   FwdList() {}
 
+  explicit FwdList(Node * h) : head(h) {}
+
   FwdList(std::initializer_list<T> const & in)
   {
     Node * prev = nullptr; 

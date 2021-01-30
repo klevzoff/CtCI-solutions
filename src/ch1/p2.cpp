@@ -8,6 +8,8 @@ using namespace std;
  * @brief Check Permutation
  *
  * Given two strings, decide if one is permutation of the other.
+ * Time complexity: O(N).
+ * Space complexity: O(1) (since fixed character set).
  */
 bool is_permutation(string const & s1, string const & s2)
 {

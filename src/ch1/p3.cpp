@@ -5,11 +5,12 @@
 using namespace std;
 
 /**
- * @brief URLify
+ * @brief URLify.
  *
- * Replace all spaces in a string with '%20'.
- * Assume the string has sufficient space at the end.
+ * Replace all spaces in a string with '%20'. Assume the string has sufficient space at the end.
  * True length of the string given as input.
+ * Time complexity: O(N).
+ * Space complexity: O(1).
  */
 void urlify(string & s, size_t len)
 {

@@ -1,7 +1,7 @@
+#include <FwdList.hpp>
+
 #include <cassert>
 #include <unordered_set>
-
-#include <List.hpp>
 
 using namespace std;
 
@@ -9,20 +9,21 @@ using namespace std;
  * @brief Remove Dups.
  *
  * Remove duplicate elements in an unsorted linked list.
+ * Time complexity: O(N).
+ * Space complexity: O(N) (or number of unique values to be precise).
  */
 template <typename T>
-void remove_duplicates(List<T> & l)
+void remove_duplicates(FwdList<T> & l)
 {
+  using Node = typename FwdList<T>::Node;
   unordered_set<T> seen;
-  for (auto curr = l.head; curr; curr = curr->next)
+  for (Node * curr = l.head, * prev = nullptr; curr; prev = curr, curr = curr->next)
   {
     if (seen.count(curr->val) > 0)
     {
-      curr->prev->next = curr->next;
-      if (curr->next) curr->next->prev = curr->prev;
-      auto tmp = curr;
-      curr = curr->prev;
-      delete tmp;
+      prev->next = curr->next;
+      delete curr;
+      curr = prev;
     }
     else
     {
@@ -35,34 +36,34 @@ void remove_duplicates(List<T> & l)
  * @brief Remove Dups.
  *
  * Remove duplicate elements in an unsorted linked list.
- * O(n2) without using additional memory (hash set).
+ * Time complexity: O(N^2).
+ * Space complexity: O(1).
  */
 template <typename T>
-void remove_duplicates_v2(List<T> & l)
+void remove_duplicates_v2(FwdList<T> & l)
 {
-  for (auto curr = l.head; curr; curr = curr->next)
+  using Node = typename FwdList<T>::Node;
+  for (Node * curr = l.head, * prev = nullptr; curr; prev = curr, curr = curr->next)
   {
     auto s = l.head;
     for (; s != curr && s->val != curr->val; s = s->next);
     if (s != curr)
     {
-      curr->prev->next = curr->next;
-      if (curr->next) curr->next->prev = curr->prev;
-      auto tmp = curr;
-      curr = curr->prev;
-      delete tmp;
+      prev->next = curr->next;
+      delete curr;
+      curr = prev;
     }
   }
 }
 
 template <typename F>
-bool test_solution(List<int> l, List<int> const & e, F f)
+bool test_solution(FwdList<int> l, FwdList<int> const & e, F f)
 {
   f(l);
   return l == e;
 }
 
-bool test(List<int> const & l, List<int> const & e)
+bool test(FwdList<int> const & l, FwdList<int> const & e)
 {
   return test_solution(l, e, remove_duplicates<int>)
       && test_solution(l, e, remove_duplicates_v2<int>);

@@ -1,7 +1,14 @@
-#include <cassert>
-
 #include <FwdList.hpp>
 
+#include <cassert>
+
+/**
+ * @brief N-th to Last.
+ *
+ * Find n-th to last element of a singly-lined list.
+ * Time complexity: O(N).
+ * Space complexity: O(1).
+ */
 template <typename T>
 T & nth_to_last(FwdList<T> const & l, size_t n)
 {

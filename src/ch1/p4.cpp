@@ -4,10 +4,11 @@
 using namespace std;
 
 /**
- * @brief Palindrome permutation
+ * @brief Palindrome permutation.
  *
- * Given a string check if it is a permutation of a palindrome.
- * (force lowercase and ignore non-English-letter characters).
+ * Given a string check if it is a permutation of a palindrome (force lowercase and ignore non-English-letter characters).
+ * Time complexity: O(N).
+ * Space complexity: O(1).
  */
 bool is_palindrome_perm(string const & s)
 {
