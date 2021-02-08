@@ -1,5 +1,6 @@
 #include <initializer_list>
 #include <iostream>
+#include <cassert>
 
 /**
  * @brief Doubly-linked list
@@ -20,6 +21,7 @@ struct List
   };
 
   Node * head{};
+  Node * tail{};
 
   List() {}
 
@@ -38,6 +40,7 @@ struct List
       if (!head) head = curr;
       prev = curr;
     }
+    tail = prev;
   }
 
   List(List const & other)
@@ -56,6 +59,7 @@ struct List
       if (!head) head = curr;
       prev = curr;
     }
+    tail = prev;
   }
 
   List(List && other) = default;
@@ -83,16 +87,75 @@ struct List
     }
   }
 
+  [[nodiscard]]
+  bool empty() const
+  {
+    return head == nullptr;
+  }
+
+  void add_head(T val)
+  {
+    auto * const node = new Node();
+    node->val = std::move(val);
+    node->next = head;
+    if (!tail) tail = node;
+    if (head) head->prev = node;
+    head = node;
+  }
+
+  void rem_head()
+  {
+    assert(head);
+    Node * tmp = head;
+    if (tail == head) tail = nullptr;
+    head = head->next;
+    if (head) head->prev = nullptr;
+    delete tmp;
+  }
+
+  void add_tail(T val)
+  {
+    auto * const node = new Node();
+    node->val = std::move(val);
+    node->prev = tail;
+    if (!head) head = node;
+    if (tail) tail->next = node;
+    tail = node;
+  }
+
+  void rem_tail()
+  {
+    assert(tail);
+    Node * tmp = tail;
+    if (head == tail) head = nullptr;
+    tail = tail->prev;
+    if (tail) tail->next = nullptr;
+    delete tmp;
+  }
+
+  void rem(Node * node)
+  {
+    if (node == head) rem_head();
+    else if (node == tail) rem_tail();
+    else
+    {
+      node->prev->next = node->next;
+      node->next->prev = node->prev;
+      delete node;
+    }
+  }
+
   friend std::ostream & operator<<(std::ostream & os, List<T> const & l)
   {
     Node * curr = l.head;
     os << "head -> ";
-    while (curr)
+    while (curr != l.tail)
     {
       os << curr->val << " <-> ";
       curr = curr->next;
     }
-    os << "null";
+    if (curr) os << curr->val;
+    os << " <- tail";
     return os;
   }
 };
