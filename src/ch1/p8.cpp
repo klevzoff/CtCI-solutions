@@ -1,8 +1,6 @@
 #include <vector>
 #include <cassert>
 
-using namespace std;
-
 /**
  * @brief Zero Matrix.
  *
@@ -11,7 +9,7 @@ using namespace std;
  * Space complexity: O(1).
  */
 template <typename T>
-void zero_rowcol(vector<T> & mat, size_t M, size_t N)
+void zero_rowcol(std::vector<T> & mat, size_t M, size_t N)
 {
   assert(M * N == size(mat));
 
@@ -64,7 +62,7 @@ void zero_rowcol(vector<T> & mat, size_t M, size_t N)
   for (size_t j = 0; j < N; ++j) v(idx_row, j) = T(0);
 }
 
-bool test(vector<int> m, size_t M, size_t N, vector<int> const & e)
+bool test(std::vector<int> m, size_t M, size_t N, std::vector<int> const & e)
 {
   zero_rowcol(m, M, N);
   return m == e;

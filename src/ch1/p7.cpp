@@ -2,8 +2,6 @@
 #include <cmath>
 #include <cassert>
 
-using namespace std;
-
 /**
  * @brief Rotate Matrix.
  *
@@ -12,7 +10,7 @@ using namespace std;
  * Space complexity: O(1)
  */
 template <typename T>
-void rotate_90(vector<T> & mat)
+void rotate_90(std::vector<T> & mat)
 {
   auto const N = static_cast<size_t>(round(sqrt(size(mat))));
   assert(N * N == size(mat));
@@ -34,7 +32,7 @@ void rotate_90(vector<T> & mat)
   }
 }
 
-bool test(vector<int> m, vector<int> const & e)
+bool test(std::vector<int> m, std::vector<int> const & e)
 {
   rotate_90(m);
   return m == e;

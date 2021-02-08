@@ -1,11 +1,9 @@
 #include <string>
 #include <cassert>
 
-using namespace std;
-
-bool is_substring(string const & s1, string const & s2)
+bool is_substring(std::string const & s1, std::string const & s2)
 {
-  return s2.find(s1) != string::npos;
+  return s2.find(s1) != std::string::npos;
 }
 
 /**
@@ -16,7 +14,7 @@ bool is_substring(string const & s1, string const & s2)
  * Time complexity: O(s2.size()) (+ whatever is_substring() requires).
  * Space complexity: O(s2.size()) (+ whatever is_substring() requires).
  */
-bool is_rotation(string const & s1, string const & s2)
+bool is_rotation(std::string const & s1, std::string const & s2)
 {
   return s1.size() == s2.size() && is_substring(s1, s2+s2);
 }

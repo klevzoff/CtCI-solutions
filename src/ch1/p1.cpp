@@ -1,8 +1,6 @@
 #include <string>
 #include <cassert>
 
-using namespace std;
-
 /**
  * @brief Is Unique
  *
@@ -10,7 +8,7 @@ using namespace std;
  * Time complexity: O(N).
  * Space complexity: O(1) (since fixed character set).
  */
-bool all_unique_chars(string const & s)
+bool all_unique_chars(std::string const & s)
 {
   bool flag[256]{false};
   for (char c : s)

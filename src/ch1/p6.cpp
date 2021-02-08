@@ -2,8 +2,6 @@
 #include <charconv>
 #include <cassert>
 
-using namespace std;
-
 /**
  * @brief String Compression.
  *
@@ -12,10 +10,10 @@ using namespace std;
  * Time complexity: O(N).
  * Space complexity: O(1) (not including space for result).
  */
-string compress(string const & s)
+std::string compress(std::string const & s)
 {
   if (s.empty()) return s;
-  string r(s.size(), ' ');
+  std::string r(s.size(), ' ');
   char * pos = r.data();
   size_t cnt = 1;
 
@@ -28,8 +26,8 @@ string compress(string const & s)
     else
     {
       *pos++ = s[i-1];
-      auto res = to_chars(pos, r.data() + r.size() - 1, cnt);
-      if (res.ec == errc::value_too_large) return s;
+      auto res = std::to_chars(pos, r.data() + r.size() - 1, cnt);
+      if (res.ec == std::errc::value_too_large) return s;
       pos = res.ptr;
       cnt = 1;
     }
@@ -40,7 +38,7 @@ string compress(string const & s)
 
 int main()
 {
-  assert(compress("") == "");
+  assert(compress("").empty());
   assert(compress("a") == "a");
   assert(compress("aa") == "aa");
   assert(compress("aaa") == "a3");

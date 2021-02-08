@@ -2,8 +2,6 @@
 #include <cassert>
 #include <algorithm>
 
-using namespace std;
-
 /**
  * @brief Check Permutation
  *
@@ -11,13 +9,13 @@ using namespace std;
  * Time complexity: O(N).
  * Space complexity: O(1) (since fixed character set).
  */
-bool is_permutation(string const & s1, string const & s2)
+bool is_permutation(std::string const & s1, std::string const & s2)
 {
   if (s1.size() != s2.size()) return false;
   int cnt[256]{};
   for (char c : s1) ++cnt[static_cast<unsigned char>(c)];
   for (char c : s2) --cnt[static_cast<unsigned char>(c)];
-  return all_of(begin(cnt), end(cnt), [](int v){ return v == 0; });
+  return std::all_of(std::begin(cnt), std::end(cnt), [](int v){ return v == 0; });
 }
 
 int main()

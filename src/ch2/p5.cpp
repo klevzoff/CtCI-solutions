@@ -3,8 +3,6 @@
 #include <cassert>
 #include <utility>
 
-using namespace std;
-
 /**
  * @brief Sum Lists.
  *

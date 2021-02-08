@@ -2,8 +2,6 @@
 #include <algorithm>
 #include <cassert>
 
-using namespace std;
-
 /**
  * @brief URLify.
  *
@@ -12,7 +10,7 @@ using namespace std;
  * Time complexity: O(N).
  * Space complexity: O(1).
  */
-void urlify(string & s, size_t len)
+void urlify(std::string & s, size_t len)
 {
   size_t num_space = 0;
   for (size_t i = 0; i < len; ++i)
@@ -38,7 +36,7 @@ void urlify(string & s, size_t len)
   } while (rit != wit);
 }
 
-bool test(string s, string const & e)
+bool test(std::string s, std::string const & e)
 {
   size_t const len = s.length();
   size_t const num_space = count(begin(s), end(s), ' ');

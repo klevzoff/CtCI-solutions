@@ -1,8 +1,6 @@
 #include <string>
 #include <cassert>
 
-using namespace std;
-
 /**
  * @brief One Away.
  *
@@ -10,7 +8,7 @@ using namespace std;
  * Time complexity: O(min(N1, N2)).
  * Space complexity: O(1).
  */
-bool one_away(string const & s1, string const & s2)
+bool one_away(std::string const & s1, std::string const & s2)
 {
   int const len_diff = static_cast<int>(size(s1)) - static_cast<int>(size(s2));
   if (abs(len_diff) > 1)

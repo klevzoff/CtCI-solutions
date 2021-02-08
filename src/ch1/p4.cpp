@@ -1,8 +1,6 @@
 #include <string>
 #include <cassert>
 
-using namespace std;
-
 /**
  * @brief Palindrome permutation.
  *
@@ -10,7 +8,7 @@ using namespace std;
  * Time complexity: O(N).
  * Space complexity: O(1).
  */
-bool is_palindrome_perm(string const & s)
+bool is_palindrome_perm(std::string const & s)
 {
   int32_t odd = 0;
   for (char c : s)

@@ -3,8 +3,6 @@
 #include <cassert>
 #include <unordered_set>
 
-using namespace std;
-
 /**
  * @brief Remove Dups.
  *
@@ -16,7 +14,7 @@ template <typename T>
 void remove_duplicates(FwdList<T> & l)
 {
   using Node = typename FwdList<T>::Node;
-  unordered_set<T> seen;
+  std::unordered_set<T> seen;
   for (Node * curr = l.head, * prev = nullptr; curr; prev = curr, curr = curr->next)
   {
     if (seen.count(curr->val) > 0)
