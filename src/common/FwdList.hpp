@@ -1,5 +1,8 @@
+#ifndef CTCI_SOLUTIONS_FWDLIST_HPP
+#define CTCI_SOLUTIONS_FWDLIST_HPP
+
 #include <initializer_list>
-#include <iostream>
+#include <ostream>
 
 /**
  * @brief Singly-linked list
@@ -20,7 +23,7 @@ struct FwdList
 
   Node * head{};
 
-  FwdList() {}
+  FwdList() = default;
 
   explicit FwdList(Node * h) : head(h) {}
 
@@ -57,7 +60,10 @@ struct FwdList
     }
   }
 
-  FwdList(FwdList && other) = default;
+  FwdList(FwdList && other)
+  {
+    std::swap(head, other.head);
+  }
 
   bool operator==(FwdList const & other)
   {
@@ -95,3 +101,5 @@ struct FwdList
     return os;
   }
 };
+
+#endif // CTCI_SOLUTIONS_FWDLIST_HPP

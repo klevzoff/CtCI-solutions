@@ -1,5 +1,8 @@
+#ifndef CTCI_SOLUTIONS_LIST_HPP
+#define CTCI_SOLUTIONS_LIST_HPP
+
 #include <initializer_list>
-#include <iostream>
+#include <ostream>
 #include <cassert>
 
 /**
@@ -23,7 +26,7 @@ struct List
   Node * head{};
   Node * tail{};
 
-  List() {}
+  List() = default;
 
   List(std::initializer_list<T> const & in)
   {
@@ -62,7 +65,11 @@ struct List
     tail = prev;
   }
 
-  List(List && other) = default;
+  List(List && other)
+  {
+    std::swap(head, other.head);
+    std::swap(tail, other.tail);
+  }
 
   bool operator==(List const & other)
   {
@@ -159,3 +166,5 @@ struct List
     return os;
   }
 };
+
+#endif // CTCI_SOLUTIONS_LIST_HPP
