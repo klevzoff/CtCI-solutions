@@ -72,7 +72,7 @@ struct BinaryTree
     deleteTree(root);
   }
 
-  bool operator==(BinaryTree<T> const & other)
+  bool operator==(BinaryTree<T> const & other) const
   {
     return compareTree(root, other.root, std::equal_to<>{});
   }
@@ -103,6 +103,8 @@ struct BinaryTree
   }
 
   ////////////////////////////////////////////////////////////////////////////////
+
+private:
 
   template <typename ID>
   static Node * buildTree(std::unordered_map<ID, std::tuple<ID,ID,T>> & nodemap, ID const & nodeID)

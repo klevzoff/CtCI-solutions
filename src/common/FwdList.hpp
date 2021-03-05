@@ -65,7 +65,7 @@ struct FwdList
     std::swap(head, other.head);
   }
 
-  bool operator==(FwdList const & other)
+  bool operator==(FwdList const & other) const
   {
     Node * lnode = head;
     Node * rnode = other.head;

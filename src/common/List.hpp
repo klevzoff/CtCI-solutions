@@ -71,7 +71,7 @@ struct List
     std::swap(tail, other.tail);
   }
 
-  bool operator==(List const & other)
+  bool operator==(List const & other) const
   {
     Node * lnode = head;
     Node * rnode = other.head;

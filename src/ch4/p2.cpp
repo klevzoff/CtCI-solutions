@@ -5,30 +5,39 @@
 #include <cmath>
 #include <numeric>
 
+namespace detail
+{
 template <typename T, typename Iter>
-typename BinaryTree<T>::Node * make_balanced_tree_sub(Iter first, Iter last)
+typename BinaryTree<T>::Node * make_min_tree_impl(Iter first, Iter last)
 {
   using Node = typename BinaryTree<T>::Node;
   if (first == last) return nullptr;
   Iter const mid = first + std::distance(first, last) / 2;
   Node * node = new Node;
   node->value = *mid;
-  node->left = make_balanced_tree_sub<T>(first, mid);
-  node->right = make_balanced_tree_sub<T>(mid+1, last);
+  node->left = make_min_tree_impl<T>(first, mid);
+  node->right = make_min_tree_impl<T>(mid + 1, last);
   return node;
 }
+}
 
+/**
+ * @brief Minimal Tree.
+ *
+ * Given a sorted (increasing order) of unique values, make a
+ * binary search tree with minimal height.
+ */
 template <typename T>
-BinaryTree<T> make_balanced_tree(std::vector<T> const & input)
+BinaryTree<T> make_min_tree(std::vector<T> const & input)
 {
   BinaryTree<T> res;
-  res.root = make_balanced_tree_sub<T>(input.begin(), input.end());
+  res.root = detail::make_min_tree_impl<T>(input.begin(), input.end());
   return res;
 }
 
 bool test(std::vector<int> const & input)
 {
-  auto res = make_balanced_tree(input);
+  auto res = make_min_tree(input);
   return res.size() == input.size()
       && res.depth() == (input.empty() ? 0 : size_t(std::log2(input.size()))+1)
       && res.values() == input;

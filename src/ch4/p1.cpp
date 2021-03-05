@@ -3,20 +3,25 @@
 #include <cassert>
 #include <queue>
 
+/**
+ * @brief Route Between Nodes.
+ *
+ * Given a directed graph, check if there is a route between two nodes.
+ */
 template <typename N, typename E>
 bool has_path(Graph<N,E> const & g,
-              typename Graph<N,E>::nidx_t src,
-              typename Graph<N,E>::nidx_t dst)
+              typename Graph<N,E>::node_id_type src,
+              typename Graph<N,E>::node_id_type dst)
 {
-  using nidx_t = typename Graph<N,E>::nidx_t;
+  using nid_t = typename Graph<N,E>::node_id_type;
   assert(src < g.num_nodes() && dst < g.num_nodes());
 
   std::vector<bool> visited(g.num_nodes(), false);
-  std::queue<nidx_t> next({src});
+  std::queue<nid_t> next({src});
 
   while (!next.empty())
   {
-    nidx_t const n = next.front();
+    nid_t const n = next.front();
     next.pop();
     if (n == dst) return true;
     visited[n] = true;
