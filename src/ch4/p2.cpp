@@ -7,7 +7,7 @@
 
 namespace detail
 {
-template <typename T, typename Iter>
+template<typename T, typename Iter>
 typename BinaryTree<T>::Node * make_min_tree_impl(Iter first, Iter last)
 {
   using Node = typename BinaryTree<T>::Node;
@@ -27,7 +27,7 @@ typename BinaryTree<T>::Node * make_min_tree_impl(Iter first, Iter last)
  * Given a sorted (increasing order) of unique values, make a
  * binary search tree with minimal height.
  */
-template <typename T>
+template<typename T>
 BinaryTree<T> make_min_tree(std::vector<T> const & input)
 {
   BinaryTree<T> res;

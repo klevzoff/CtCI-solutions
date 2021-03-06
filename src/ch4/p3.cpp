@@ -5,7 +5,7 @@
 
 namespace detail
 {
-template <typename T>
+template<typename T>
 void make_level_lists_impl(typename BinaryTree<T>::Node * const node,
                            std::vector<List<T>> & lists,
                            size_t level)
@@ -35,7 +35,7 @@ void make_level_lists_impl(typename BinaryTree<T>::Node * const node,
  *       So does the solution in the book (using Java's LinkedList). If a singly-linked
  *       list was requested, we'd have to track list tails in the vector as well.
  */
-template <typename T>
+template<typename T>
 std::vector<List<T>> make_level_lists(BinaryTree<T> const & tree)
 {
   std::vector<List<T>> result;

@@ -14,7 +14,7 @@
  * Constructor from a node-tuple-list is provided to facilitate testing.
  * Normally tree construction would be performed manually in problems.
  */
-template <typename T>
+template<typename T>
 struct BinaryTree
 {
   struct Node
@@ -106,7 +106,7 @@ struct BinaryTree
 
 private:
 
-  template <typename ID>
+  template<typename ID>
   static Node * buildTree(std::unordered_map<ID, std::tuple<ID,ID,T>> & nodemap, ID const & nodeID)
   {
     if (nodemap.count(nodeID) == 0) return nullptr;

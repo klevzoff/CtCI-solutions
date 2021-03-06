@@ -8,7 +8,7 @@
  *
  * Given a directed graph, check if there is a route between two nodes.
  */
-template <typename N, typename E>
+template<typename N, typename E>
 bool has_path(Graph<N,E> const & g,
               typename Graph<N,E>::node_id_type src,
               typename Graph<N,E>::node_id_type dst)
