@@ -7,6 +7,81 @@
 #include <vector>
 #include <cassert>
 
+namespace tree_ops
+{
+
+template<typename Node, typename Comp>
+static bool compare(Node const * a, Node const * const b, Comp comp)
+{
+  if (a == b) return true;    // same node trivial case
+  if (!a != !b) return false; // both null or non-null
+  return comp(a->value, b->value)
+         && compare(a->left, b->left, comp)
+         && compare(a->right, b->right, comp);
+}
+
+template<typename Node>
+static void print(std::ostream & os, Node const * const node, int level)
+{
+  os << std::string(level * 2, ' ') << "-> ";
+  if (!node)
+  {
+    os << "null\n";
+  }
+  else
+  {
+    os << node->value << "\n";
+    print(os, node->left, level + 1);
+    print(os, node->right, level + 1);
+  }
+}
+
+template<typename Node>
+static void erase(Node * const node)
+{
+  if (!node) return;
+  erase(node->left);
+  erase(node->right);
+  delete node;
+}
+
+template<typename Node>
+static size_t depth(Node const * const node)
+{
+  if (!node) return 0;
+  return 1 + std::max(depthTree(node->left), depthTree(node->right));
+}
+
+template<typename Node>
+static size_t size(Node const * const node)
+{
+  if (!node) return 0;
+  return 1 + size(node->left) + sizeTree(node->right);
+}
+
+template<typename Node>
+static void values(Node const * const node, std::vector<typename Node::value_type> & vals)
+{
+  if (!node) return;
+  values(node->left, vals);
+  vals.push_back(node->value);
+  values(node->right, vals);
+}
+
+/**
+ * @brief Find node with a given value assuming a binary search tree.
+ */
+template<typename Node>
+Node const * find_bst(Node const * const node, typename Node::value_type const & v)
+{
+  if (!node) return nullptr;
+  if (node->value == v) return node;
+  else if (v <= node->value) return find_bst(node->left, v);
+  else return find_bst(node->right, v);
+}
+
+} // namespace tree_ops
+
 /**
  * @brief Simple wrapper struct for a binary tree
  *
@@ -19,6 +94,8 @@ struct BinaryTree
 {
   struct Node
   {
+    using value_type = T;
+
     T value{};
     Node * left{};
     Node * right{};
@@ -69,37 +146,42 @@ struct BinaryTree
 
   ~BinaryTree()
   {
-    deleteTree(root);
+    tree_ops::erase(root);
   }
 
   bool operator==(BinaryTree<T> const & other) const
   {
-    return compareTree(root, other.root, std::equal_to<>{});
+    return tree_ops::compare(root, other.root, std::equal_to<>{});
   }
 
   friend std::ostream & operator<<(std::ostream & os, BinaryTree<T> const & l)
   {
     os << "root" << "\n";
-    l.printTree(os, l.root, 0);
+    tree_ops::print(os, l.root, 0);
     os.flush();
     return os;
   }
 
   [[nodiscard]] size_t depth() const
   {
-    return depthTree(root);
+    return tree_ops::depth(root);
   }
 
   [[nodiscard]] size_t size() const
   {
-    return sizeTree(root);
+    return tree_ops::size(root);
   }
 
   [[nodiscard]] std::vector<T> values() const
   {
-    std::vector<T> res;
-    dfsTree(root, res);
-    return res;
+    std::vector<T> vals;
+    tree_ops::values(root, vals);
+    return vals;
+  }
+
+  [[nodiscard]] Node const * find_bst(T const & v) const
+  {
+    return tree_ops::find_bst(root, v);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +194,7 @@ private:
     if (nodemap.count(nodeID) == 0) return nullptr;
     std::tuple<ID,ID,T> t = nodemap.at(nodeID);
     nodemap.erase(nodeID);
-    Node * node = new Node;
+    Node * const node = new Node;
     node->value = std::get<2>(t);
     node->left  = buildTree(nodemap, std::get<0>(t));
     node->right = buildTree(nodemap, std::get<1>(t));
@@ -122,64 +204,140 @@ private:
   static Node * copyTree(Node const * const node)
   {
     if (!node) return nullptr;
-    Node * copy = new Node;
+    Node * const copy = new Node;
     copy->value = node->value;
     copy->left = copyTree(node->left);
     copy->right = copyTree(node->right);
     return copy;
   }
+};
 
-  template<typename Comp>
-  static bool compareTree(Node const * a, Node const * const b, Comp comp)
+/**
+ * @brief Same as BinaryTree, but with parent links in each node.
+ */
+template<typename T>
+struct BinaryPTree
+{
+  struct Node
   {
-    if (a == b) return true;    // same node trivial case
-    if (!a != !b) return false; // both null or non-null
-    return comp(a->value, b->value)
-        && compareTree(a->left, b->left, comp)
-        && compareTree(a->right, b->right, comp);
-  }
+    using value_type = T;
 
-  static void printTree(std::ostream & os, Node const * const node, int level)
+    T value{};
+    Node * left{};
+    Node * right{};
+    Node * parent{};
+  };
+
+  Node * root{};
+
+  BinaryPTree() = default;
+
+  explicit BinaryPTree(Node * r) : root(r) {}
+
+  /**
+   * @brief Construct a binary tree from a list of nodes with unique integer identifiers.
+   *
+   * Each input element is a quadruplet {nodeID, leftID, rightID, value}.
+   * Non-existent child IDs are interpreted as null pointers.
+   * Turns an input like {{0,1,2,42},{1,-1,-1,43},{2,-1,-1,44}} into:
+   *     42
+   *   /   \
+   *  43   44
+   */
+  BinaryPTree(std::initializer_list<std::tuple<int,int,int,T>> const & nodelist)
   {
-    os << std::string(level * 2, ' ') << "-> ";
-    if (!node)
+    if (nodelist.size() == 0) return;
+    int const rootID = std::get<0>(*nodelist.begin());
+
+    // turn init-list into a map for easier node lookup and removal
+    std::unordered_map<int, std::tuple<int,int,T>> nodemap;
+    for (auto const & t : nodelist)
     {
-      os << "null\n";
+      int const id = std::get<0>(t);
+      assert(nodemap.count(id) == 0); // check for non-repeating IDs
+      nodemap[id] = std::make_tuple(std::get<1>(t), std::get<2>(t), std::get<3>(t));
     }
-    else
-    {
-      os << node->value << "\n";
-      printTree(os, node->left, level + 1);
-      printTree(os, node->right, level + 1);
-    }
+
+    root = buildTree(nodemap, rootID, nullptr);
   }
 
-  static void deleteTree(Node * const node)
+  BinaryPTree(BinaryTree<T> const & other)
   {
-    if (!node) return;
-    deleteTree(node->left);
-    deleteTree(node->right);
-    delete node;
+    root = copyTree(other.root, nullptr);
   }
 
-  static size_t depthTree(Node const * const node)
+  BinaryPTree(BinaryTree<T> && other) noexcept
   {
-    if (!node) return 0;
-    return 1 + std::max(depthTree(node->left), depthTree(node->right));
+    std::swap(root, other.root);
   }
 
-  static size_t sizeTree(Node const * const node)
+  ~BinaryPTree()
   {
-    if (!node) return 0;
-    return 1 + sizeTree(node->left) + sizeTree(node->right);
+    tree_ops::erase(root);
   }
 
-  static void dfsTree(Node const * const node, std::vector<T> & values)
+  bool operator==(BinaryTree<T> const & other) const
   {
-    if (!node) return;
-    dfsTree(node->left, values);
-    values.push_back(node->value);
-    dfsTree(node->right, values);
+    return tree_ops::compare(root, other.root, std::equal_to<>{});
+  }
+
+  friend std::ostream & operator<<(std::ostream & os, BinaryTree<T> const & l)
+  {
+    os << "root" << "\n";
+    tree_ops::print(os, l.root, 0);
+    os.flush();
+    return os;
+  }
+
+  [[nodiscard]] size_t depth() const
+  {
+    return tree_ops::depth(root);
+  }
+
+  [[nodiscard]] size_t size() const
+  {
+    return tree_ops::size(root);
+  }
+
+  [[nodiscard]] std::vector<T> values() const
+  {
+    std::vector<T> vals;
+    tree_ops::values(root, vals);
+    return vals;
+  }
+
+  [[nodiscard]] Node const * find_bst(T const & v) const
+  {
+    return tree_ops::find_bst(root, v);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+
+private:
+
+  template<typename ID>
+  static Node * buildTree(std::unordered_map<ID, std::tuple<ID,ID,T>> & nodemap, ID const & nodeID, Node * const parent)
+  {
+    if (nodemap.count(nodeID) == 0) return nullptr;
+    std::tuple<ID,ID,T> t = nodemap.at(nodeID);
+    nodemap.erase(nodeID);
+    Node * const node = new Node;
+    node->value = std::get<2>(t);
+    node->left  = buildTree(nodemap, std::get<0>(t), node);
+    node->right = buildTree(nodemap, std::get<1>(t), node);
+    node->parent = parent;
+    return node;
+  }
+
+  static Node * copyTree(Node const * const node, Node * const parent)
+  {
+    if (!node) return nullptr;
+    Node * copy = new Node;
+    copy->value = node->value;
+    copy->left = copyTree(node->left, copy);
+    copy->right = copyTree(node->right, copy);
+    copy->parent = parent;
+    return copy;
   }
 };
 

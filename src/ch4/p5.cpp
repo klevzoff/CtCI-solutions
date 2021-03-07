@@ -29,6 +29,11 @@ std::tuple<bool, T, T> is_bst(typename BinaryTree<T>::Node const * const node)
 }
 }
 
+/**
+ * @brief Validate BST.
+ *
+ * For a given tree, check if it is a valid binary search tree.
+ */
 template<typename T>
 bool is_bst(BinaryTree<T> const & tree)
 {
