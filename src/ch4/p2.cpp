@@ -5,18 +5,18 @@
 #include <cmath>
 #include <numeric>
 
-namespace detail
+namespace impl
 {
 template<typename T, typename Iter>
-typename BinaryTree<T>::Node * make_min_tree_impl(Iter first, Iter last)
+typename BinaryTree<T>::Node * make_min_tree(Iter first, Iter last)
 {
   using Node = typename BinaryTree<T>::Node;
   if (first == last) return nullptr;
   Iter const mid = first + std::distance(first, last) / 2;
   Node * node = new Node;
   node->value = *mid;
-  node->left = make_min_tree_impl<T>(first, mid);
-  node->right = make_min_tree_impl<T>(mid + 1, last);
+  node->left = make_min_tree<T>(first, mid);
+  node->right = make_min_tree<T>(mid + 1, last);
   return node;
 }
 }
@@ -31,7 +31,7 @@ template<typename T>
 BinaryTree<T> make_min_tree(std::vector<T> const & input)
 {
   BinaryTree<T> res;
-  res.root = detail::make_min_tree_impl<T>(input.begin(), input.end());
+  res.root = impl::make_min_tree<T>(input.begin(), input.end());
   return res;
 }
 

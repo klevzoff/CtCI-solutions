@@ -3,12 +3,12 @@
 
 #include <cassert>
 
-namespace detail
+namespace impl
 {
 template<typename T>
-void make_level_lists_impl(typename BinaryTree<T>::Node * const node,
-                           std::vector<List<T>> & lists,
-                           size_t level)
+void make_level_lists(typename BinaryTree<T>::Node * const node,
+                      std::vector<List<T>> & lists,
+                      size_t level)
 {
   if (!node) return;
   if (level == lists.size())
@@ -16,8 +16,8 @@ void make_level_lists_impl(typename BinaryTree<T>::Node * const node,
     lists.push_back({});
   }
   lists[level].add_tail(node->value);
-  make_level_lists_impl(node->left, lists, level+1);
-  make_level_lists_impl(node->right, lists, level+1);
+  make_level_lists(node->left, lists, level + 1);
+  make_level_lists(node->right, lists, level + 1);
 }
 }
 
@@ -39,7 +39,7 @@ template<typename T>
 std::vector<List<T>> make_level_lists(BinaryTree<T> const & tree)
 {
   std::vector<List<T>> result;
-  detail::make_level_lists_impl(tree.root, result, 0);
+  impl::make_level_lists(tree.root, result, 0);
   return result;
 }
 

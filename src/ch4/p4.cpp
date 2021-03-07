@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+namespace impl
+{
 template<typename T>
 std::pair<bool, int> is_balanced_impl(typename BinaryTree<T>::Node const * const node)
 {
@@ -11,11 +13,12 @@ std::pair<bool, int> is_balanced_impl(typename BinaryTree<T>::Node const * const
   auto [br, dr] = is_balanced_impl<T>(node->right);
   return { br && std::abs(dl - dr) <= 1, std::max(dl, dr) + 1 };
 }
+}
 
 template<typename T>
 bool is_balanced(BinaryTree<T> const & tree)
 {
-  return is_balanced_impl<T>(tree.root).first;
+  return impl::is_balanced_impl<T>(tree.root).first;
 }
 
 int main()
