@@ -1,5 +1,11 @@
 #include "Tree.hpp"
 
+/**
+ * @brief Successor.
+ *
+ * Given a binary search tree node, find it's "in-order" successor node.
+ * Assume each node has a link to its parent.
+ */
 template<typename T>
 typename BinaryPTree<T>::Node const *
 find_successor(typename BinaryPTree<T>::Node const * const node)

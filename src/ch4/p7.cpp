@@ -4,6 +4,18 @@
 #include <queue>
 #include <cassert>
 
+/**
+ * @brief Build Order.
+ *
+ * Given a list of projects and a list of dependencies (pairs where second project depends on first),
+ * find a valid build order in which each project is build after its dependencies. If there is no
+ * valid build order, return an error.
+ *
+ * @note Here we return an empty list instead of throwing an exception or returning an additional error indicator.
+ *       This makes testing a bit easier, but using other error reporting mechanisms is a trivial change.
+ * @note We use Graph class to handle construction of adjacency representation suitable for this problem.
+ *       The code to construct a vector<vector> is rather simple and could also just be pasted here.
+ */
 template<typename T>
 std::vector<T> build_order(std::vector<T> const & projects,
                            std::vector<std::pair<T,T>> const & deps)
@@ -45,7 +57,7 @@ std::vector<T> build_order(std::vector<T> const & projects,
     buildable.pop();
     for (idx_t j : dag.adjacency[i])
     {
-      if( --inc_counts[j] == 0)
+      if (--inc_counts[j] == 0)
         buildable.push(j);
     }
   }
