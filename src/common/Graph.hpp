@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <tuple>
-#include <initializer_list>
 #include <cstdint>
 #include <numeric>
 
@@ -21,9 +20,9 @@ struct Graph
   using node_id_type = std::uint64_t;
   using edge_id_type = std::uint64_t;
 
-  Graph(std::initializer_list<node_data_type> node_data,
-        std::initializer_list<std::tuple<node_id_type, node_id_type, edge_data_type>> const & edges)
-  : node_data(node_data),
+  Graph(std::vector<node_data_type> node_data,
+        std::vector<std::tuple<node_id_type, node_id_type, edge_data_type>> const & edges)
+  : node_data(std::move(node_data)),
     adjacency(node_data.size())
   {
     for (auto && e : edges)
@@ -51,7 +50,7 @@ struct Graph<void,void>
   using edge_id_type = std::uint64_t;
 
   Graph(size_t num_nodes,
-        std::initializer_list<std::tuple<node_id_type, node_id_type>> const & edges)
+        std::vector<std::tuple<node_id_type, node_id_type>> const & edges)
       : adjacency(num_nodes)
   {
     for (auto && e : edges)

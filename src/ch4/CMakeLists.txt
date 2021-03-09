@@ -4,7 +4,8 @@ set(problems
     p3
     p4
     p5
-    p6)
+    p6
+    p7)
 
 foreach(p ${problems})
   add_problem(ch4 ${p})

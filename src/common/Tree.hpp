@@ -1,11 +1,11 @@
 #ifndef CTCI_SOLUTIONS_TREE_HPP
 #define CTCI_SOLUTIONS_TREE_HPP
 
-#include <initializer_list>
 #include <ostream>
 #include <unordered_map>
 #include <vector>
 #include <cassert>
+#include <initializer_list>
 
 namespace tree_ops
 {
@@ -49,14 +49,14 @@ template<typename Node>
 static size_t depth(Node const * const node)
 {
   if (!node) return 0;
-  return 1 + std::max(depthTree(node->left), depthTree(node->right));
+  return 1 + std::max(depth(node->left), depth(node->right));
 }
 
 template<typename Node>
 static size_t size(Node const * const node)
 {
   if (!node) return 0;
-  return 1 + size(node->left) + sizeTree(node->right);
+  return 1 + size(node->left) + size(node->right);
 }
 
 template<typename Node>
@@ -276,12 +276,12 @@ struct BinaryPTree
     tree_ops::erase(root);
   }
 
-  bool operator==(BinaryTree<T> const & other) const
+  bool operator==(BinaryPTree<T> const & other) const
   {
     return tree_ops::compare(root, other.root, std::equal_to<>{});
   }
 
-  friend std::ostream & operator<<(std::ostream & os, BinaryTree<T> const & l)
+  friend std::ostream & operator<<(std::ostream & os, BinaryPTree<T> const & l)
   {
     os << "root" << "\n";
     tree_ops::print(os, l.root, 0);
