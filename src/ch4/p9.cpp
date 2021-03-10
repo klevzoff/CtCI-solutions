@@ -94,8 +94,6 @@ std::vector<std::vector<T>> bst_sequences(BinaryTree<T> const & tree)
   return impl::bst_sequences<T>(tree.root);
 }
 
-#include <iostream>
-
 bool test(BinaryTree<int> const & tree, std::vector<std::vector<int>> expected)
 {
   std::vector<std::vector<int>> result = bst_sequences(tree);
