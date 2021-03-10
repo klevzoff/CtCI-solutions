@@ -69,6 +69,19 @@ static void values(Node const * const node, std::vector<typename Node::value_typ
 }
 
 /**
+ * @brief Find node with a given value.
+ */
+template<typename Node>
+Node const * find(Node const * const node, typename Node::value_type const & v)
+{
+  if (!node) return nullptr;
+  if (node->value == v) return node;
+  Node const * const res = find(node->left, v);
+  if (res) return res;
+  return find(node->right, v);
+}
+
+/**
  * @brief Find node with a given value assuming a binary search tree.
  */
 template<typename Node>
@@ -177,6 +190,11 @@ struct BinaryTree
     std::vector<T> vals;
     tree_ops::values(root, vals);
     return vals;
+  }
+
+  [[nodiscard]] Node const * find(T const & v) const
+  {
+    return tree_ops::find(root, v);
   }
 
   [[nodiscard]] Node const * find_bst(T const & v) const
@@ -304,6 +322,11 @@ struct BinaryPTree
     std::vector<T> vals;
     tree_ops::values(root, vals);
     return vals;
+  }
+
+  [[nodiscard]] Node const * find(T const & v) const
+  {
+    return tree_ops::find(root, v);
   }
 
   [[nodiscard]] Node const * find_bst(T const & v) const
