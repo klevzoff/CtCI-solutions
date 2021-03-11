@@ -85,12 +85,14 @@ Node const * find(Node const * const node, typename Node::value_type const & v)
  * @brief Find node with a given value assuming a binary search tree.
  */
 template<typename Node>
-Node const * find_bst(Node const * const node, typename Node::value_type const & v)
+Node const * find_bst(Node const * node, typename Node::value_type const & v)
 {
-  if (!node) return nullptr;
-  if (node->value == v) return node;
-  else if (v <= node->value) return find_bst(node->left, v);
-  else return find_bst(node->right, v);
+  while (node && node->value != v)
+  {
+    if (v <= node->value) node = node->left;
+    else node = node->right;
+  }
+  return node;
 }
 
 } // namespace tree_ops
