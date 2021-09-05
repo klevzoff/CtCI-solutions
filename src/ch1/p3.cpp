@@ -1,3 +1,5 @@
+#include "testing.hpp"
+
 #include <string>
 #include <algorithm>
 #include <cassert>
@@ -10,7 +12,7 @@
  * Time complexity: O(N).
  * Space complexity: O(1).
  */
-void urlify(std::string & s, size_t len)
+void urlify(std::string & s, size_t const len)
 {
   size_t num_space = 0;
   for (size_t i = 0; i < len; ++i)
@@ -36,21 +38,22 @@ void urlify(std::string & s, size_t len)
   } while (rit != wit);
 }
 
-bool test(std::string s, std::string const & e)
+void test(std::string s, std::string const & e)
 {
   size_t const len = s.length();
   size_t const num_space = count(begin(s), end(s), ' ');
   s.resize(len + 2 * num_space, ' ');
   urlify(s, len);
-  return s == e;
+  EXPECT_EQ(s, e);
 }
 
 int main()
 {
-  assert(test("", ""));
-  assert(test("a", "a"));
-  assert(test("a b", "a%20b"));
-  assert(test("a ", "a%20"));
-  assert(test("Mr John Smith", "Mr%20John%20Smith"));
-  assert(test(" a b", "%20a%20b"));
+  test("", "");
+  test("a", "a");
+  test("a b", "a%20b");
+  test("a ", "a%20");
+  test("Mr John Smith", "Mr%20John%20Smith");
+  test(" a b", "%20a%20b");
+  return testing::summary();
 }

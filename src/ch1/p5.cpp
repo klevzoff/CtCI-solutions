@@ -1,5 +1,6 @@
+#include "testing.hpp"
+
 #include <string>
-#include <cassert>
 
 /**
  * @brief One Away.
@@ -35,13 +36,14 @@ bool one_away(std::string const & s1, std::string const & s2)
 
 int main()
 {
-  assert(one_away("", ""));
-  assert(one_away("a", "a"));
-  assert(one_away("a", "b"));
-  assert(one_away("a", "ab"));
-  assert(one_away("ab", "a"));
-  assert(one_away("ab", "ac"));
-  assert(!one_away("", "ab"));
-  assert(!one_away("ab", "cd"));
-  assert(!one_away("abcde", "acdef"));
+  EXPECT(one_away("", ""));
+  EXPECT(one_away("a", "a"));
+  EXPECT(one_away("a", "b"));
+  EXPECT(one_away("a", "ab"));
+  EXPECT(one_away("ab", "a"));
+  EXPECT(one_away("ab", "ac"));
+  EXPECT(!one_away("", "ab"));
+  EXPECT(!one_away("ab", "cd"));
+  EXPECT(!one_away("abcde", "acdef"));
+  return testing::summary();
 }

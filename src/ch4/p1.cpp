@@ -1,4 +1,5 @@
 #include "Graph.hpp"
+#include "testing.hpp"
 
 #include <cassert>
 #include <queue>
@@ -35,13 +36,14 @@ bool has_path(Graph<N,E> const & g,
 
 int main()
 {
-  assert(has_path(Graph<>(1, {}), 0, 0));
-  assert(!has_path(Graph<>(2, {}), 0, 1));
-  assert(has_path(Graph<>(2, {{0,1}}), 0, 1));
-  assert(!has_path(Graph<>(2, {{0,1}}), 1, 0));
-  assert(!has_path(Graph<>(2, {{1,0}}), 0, 1));
-  assert(has_path(Graph<>(2, {{1,0}}), 1, 0));
-  assert(has_path(Graph<>(5, {{0,1},{1,2},{1,3},{0,3},{3,4}}), 0, 4));
-  assert(has_path(Graph<>(5, {{0,1},{1,2},{1,3},{3,0},{3,4}}), 0, 4));
-  assert(!has_path(Graph<>(5, {{0,1},{1,2},{3,1},{3,0},{3,4}}), 0, 4));
+  EXPECT(has_path(Graph<>(1, {}), 0, 0));
+  EXPECT(!has_path(Graph<>(2, {}), 0, 1));
+  EXPECT(has_path(Graph<>(2, {{0,1}}), 0, 1));
+  EXPECT(!has_path(Graph<>(2, {{0,1}}), 1, 0));
+  EXPECT(!has_path(Graph<>(2, {{1,0}}), 0, 1));
+  EXPECT(has_path(Graph<>(2, {{1,0}}), 1, 0));
+  EXPECT(has_path(Graph<>(5, {{0,1},{1,2},{1,3},{0,3},{3,4}}), 0, 4));
+  EXPECT(has_path(Graph<>(5, {{0,1},{1,2},{1,3},{3,0},{3,4}}), 0, 4));
+  EXPECT(!has_path(Graph<>(5, {{0,1},{1,2},{3,1},{3,0},{3,4}}), 0, 4));
+  return testing::summary();
 }

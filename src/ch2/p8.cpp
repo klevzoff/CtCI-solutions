@@ -1,6 +1,5 @@
-#include <List.hpp>
-
-#include <cassert>
+#include "List.hpp"
+#include "testing.hpp"
 
 /**
  * @brief Loop Detection.
@@ -43,7 +42,7 @@ find_loop_start(FwdList<T> const & l)
  * we attach the tail node of the list to its n-th node to create a loop, and expect n-th node as answer.
  * At the end, tail is detached to ensure safe destruction.
  */
-bool test(FwdList<int> l, int n)
+void test(FwdList<int> const & l, int n)
 {
   using Node = FwdList<int>::Node;
   Node * nth = nullptr;
@@ -55,18 +54,18 @@ bool test(FwdList<int> l, int n)
   }
   if (k == n) nth = last;
   if (nth) last->next = nth;
-  bool res = find_loop_start(l) == nth;
+  EXPECT_EQ(find_loop_start(l), nth);
   if (nth) last->next = nullptr;
-  return res;
 }
 
 int main()
 {
-  assert(test({}, -1));
-  assert(test({1}, 0));
-  assert(test({1,2,3}, -1));
-  assert(test({1,2,3}, 1));
-  assert(test({1,2,3,4,5,6}, 4));
-  assert(test({1,2,3,4,5,6,7}, 1));
-  assert(test({1,2,3,4,5,6,7}, 0));
+  test({}, -1);
+  test({1}, 0);
+  test({1,2,3}, -1);
+  test({1,2,3}, 1);
+  test({1,2,3,4,5,6}, 4);
+  test({1,2,3,4,5,6,7}, 1);
+  test({1,2,3,4,5,6,7}, 0);
+  return testing::summary();
 }

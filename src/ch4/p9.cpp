@@ -1,8 +1,9 @@
 #include "Tree.hpp"
+#include "testing.hpp"
+#include "printing.hpp"
 
 #include <vector>
 #include <algorithm>
-#include <cassert>
 
 namespace impl
 {
@@ -94,19 +95,20 @@ std::vector<std::vector<T>> bst_sequences(BinaryTree<T> const & tree)
   return impl::bst_sequences<T>(tree.root);
 }
 
-bool test(BinaryTree<int> const & tree, std::vector<std::vector<int>> expected)
+void test(BinaryTree<int> const & tree, std::vector<std::vector<int>> expected)
 {
   std::vector<std::vector<int>> result = bst_sequences(tree);
   std::sort(result.begin(), result.end());
   std::sort(expected.begin(), expected.end());
-  return result == expected;
+  EXPECT_EQ(result, expected);
 }
 
 int main()
 {
-  assert(test({}, {}));
-  assert(test({{0,-1,-1,2}}, {{2}}));
-  assert(test({{0,1,2,2},{1,-1,-1,1},{2,-1,-1,3}}, {{2,1,3},{2,3,1}}));
-  assert(test({{0,1,2,2},{1,-1,-1,1},{2,-1,3,4},{3,-1,-1,5}}, {{2,1,4,5},{2,4,5,1},{2,4,1,5}}));
-  assert(test({{0,1,2,2},{1,-1,-1,1},{2,4,3,4},{3,-1,-1,5},{4,-1,-1,3}}, {{2,1,4,3,5},{2,1,4,5,3},{2,4,3,5,1},{2,4,3,1,5},{2,4,5,3,1},{2,4,5,1,3},{2,4,1,3,5},{2,4,1,5,3}}));
+  test({}, {});
+  test({{0,-1,-1,2}}, {{2}});
+  test({{0,1,2,2},{1,-1,-1,1},{2,-1,-1,3}}, {{2,1,3},{2,3,1}});
+  test({{0,1,2,2},{1,-1,-1,1},{2,-1,3,4},{3,-1,-1,5}}, {{2,1,4,5},{2,4,5,1},{2,4,1,5}});
+  test({{0,1,2,2},{1,-1,-1,1},{2,4,3,4},{3,-1,-1,5},{4,-1,-1,3}}, {{2,1,4,3,5},{2,1,4,5,3},{2,4,3,5,1},{2,4,3,1,5},{2,4,5,3,1},{2,4,5,1,3},{2,4,1,3,5},{2,4,1,5,3}});
+  return testing::summary();
 }

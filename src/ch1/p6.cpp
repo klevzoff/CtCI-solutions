@@ -1,6 +1,7 @@
+#include "testing.hpp"
+
 #include <string>
 #include <charconv>
-#include <cassert>
 
 /**
  * @brief String Compression.
@@ -38,11 +39,12 @@ std::string compress(std::string const & s)
 
 int main()
 {
-  assert(compress("").empty());
-  assert(compress("a") == "a");
-  assert(compress("aa") == "aa");
-  assert(compress("aaa") == "a3");
-  assert(compress("aabb") == "aabb");
-  assert(compress("aaabb") == "a3b2");
-  assert(compress("aabcccccaaa") == "a2b1c5a3");
+  EXPECT_EQ(compress(""), "");
+  EXPECT_EQ(compress("a"), "a");
+  EXPECT_EQ(compress("aa"), "aa");
+  EXPECT_EQ(compress("aaa"), "a3");
+  EXPECT_EQ(compress("aabb"), "aabb");
+  EXPECT_EQ(compress("aaabb"), "a3b2");
+  EXPECT_EQ(compress("aabcccccaaa"), "a2b1c5a3");
+  return testing::summary();
 }

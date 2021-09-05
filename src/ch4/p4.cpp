@@ -1,4 +1,5 @@
 #include "Tree.hpp"
+#include "testing.hpp"
 
 #include <cassert>
 
@@ -23,13 +24,14 @@ bool is_balanced(BinaryTree<T> const & tree)
 
 int main()
 {
-  assert(is_balanced<int>({}));
-  assert(is_balanced<int>({{0,-1,-1,0}}));
-  assert(is_balanced<int>({{0,1,-1,0},{1,-1,-1,1}}));
-  assert(is_balanced<int>({{0,-1,2,0},{2,-1,-1,2}}));
-  assert(is_balanced<int>({{0,1,2,0},{1,-1,-1,1},{2,-1,-1,2}}));
-  assert(!is_balanced<int>({{0,1,-1,0},{1,2,-1,1},{2,-1,-1,2}}));
-  assert(!is_balanced<int>({{0,1,-1,0},{1,-1,2,1},{2,-1,-1,2}}));
-  assert(is_balanced<int>({{0,1,3,0},{1,2,-1,1},{2,-1,-1,2},{3,-1,-1,3}}));
-  assert(is_balanced<int>({{0,1,3,0},{1,2,-1,1},{2,-1,-1,2},{3,-1,4,3},{4,-1,-1,4}}));
+  EXPECT(is_balanced<int>({}));
+  EXPECT(is_balanced<int>({{0,-1,-1,0}}));
+  EXPECT(is_balanced<int>({{0,1,-1,0},{1,-1,-1,1}}));
+  EXPECT(is_balanced<int>({{0,-1,2,0},{2,-1,-1,2}}));
+  EXPECT(is_balanced<int>({{0,1,2,0},{1,-1,-1,1},{2,-1,-1,2}}));
+  EXPECT(!is_balanced<int>({{0,1,-1,0},{1,2,-1,1},{2,-1,-1,2}}));
+  EXPECT(!is_balanced<int>({{0,1,-1,0},{1,-1,2,1},{2,-1,-1,2}}));
+  EXPECT(is_balanced<int>({{0,1,3,0},{1,2,-1,1},{2,-1,-1,2},{3,-1,-1,3}}));
+  EXPECT(is_balanced<int>({{0,1,3,0},{1,2,-1,1},{2,-1,-1,2},{3,-1,4,3},{4,-1,-1,4}}));
+  return testing::summary();
 }

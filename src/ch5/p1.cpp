@@ -1,3 +1,5 @@
+#include "testing.hpp"
+
 #include <cstdint>
 #include <cassert>
 
@@ -18,8 +20,9 @@ std::uint32_t insert_bits(std::uint32_t const dst,
 
 int main()
 {
-  assert(insert_bits(0b01, 0b10, 1, 2) == 0b101);
-  assert(insert_bits(0b0, 0b101011, 5, 10) == 0b10101100000);
-  assert(insert_bits(0b10101100000, 0b101011, 5, 10) == 0b10101100000);
-  assert(insert_bits(0b10000000000, 0b10011, 2, 6) == 0b10001001100);
+  EXPECT_EQ(insert_bits(0b01u, 0b10, 1, 2), 0b101u);
+  EXPECT_EQ(insert_bits(0b0u, 0b101011, 5, 10), 0b10101100000u);
+  EXPECT_EQ(insert_bits(0b10101100000u, 0b101011u, 5, 10), 0b10101100000u);
+  EXPECT_EQ(insert_bits(0b10000000000u, 0b10011u, 2, 6), 0b10001001100u);
+  return testing::summary();
 }

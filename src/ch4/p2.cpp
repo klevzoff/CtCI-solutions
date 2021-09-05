@@ -1,4 +1,6 @@
-#include <Tree.hpp>
+#include "Tree.hpp"
+#include "testing.hpp"
+#include "printing.hpp"
 
 #include <vector>
 #include <cassert>
@@ -35,12 +37,12 @@ BinaryTree<T> make_min_tree(std::vector<T> const & input)
   return res;
 }
 
-bool test(std::vector<int> const & input)
+void test(std::vector<int> const & input)
 {
   auto res = make_min_tree(input);
-  return res.size() == input.size()
-      && res.depth() == (input.empty() ? 0 : size_t(std::log2(input.size()))+1)
-      && res.values() == input;
+  EXPECT_EQ(res.size(), input.size());
+  EXPECT_EQ(res.depth(), (input.empty() ? 0 : size_t(std::log2(input.size()))+1));
+  EXPECT_EQ(res.values(), input);
 }
 
 std::vector<int> make_input(size_t const len)
@@ -52,19 +54,20 @@ std::vector<int> make_input(size_t const len)
 
 int main()
 {
-  assert(test({}));
-  assert(test({1}));
-  assert(test({1,2}));
-  assert(test({1,2,3}));
-  assert(test({1,2,3,4,5}));
-  assert(test({1,2,3,4,5,6}));
-  assert(test({1,2,3,4,5,6,7}));
-  assert(test({1,2,3,4,5,6,7,8}));
-  assert(test({1,2,3,4,5,6,7,8,9}));
-  assert(test(make_input(14)));
-  assert(test(make_input(15)));
-  assert(test(make_input(16)));
-  assert(test(make_input(30)));
-  assert(test(make_input(31)));
-  assert(test(make_input(32)));
+  test({});
+  test({1});
+  test({1,2});
+  test({1,2,3});
+  test({1,2,3,4,5});
+  test({1,2,3,4,5,6});
+  test({1,2,3,4,5,6,7});
+  test({1,2,3,4,5,6,7,8});
+  test({1,2,3,4,5,6,7,8,9});
+  test(make_input(14));
+  test(make_input(15));
+  test(make_input(16));
+  test(make_input(30));
+  test(make_input(31));
+  test(make_input(32));
+  return testing::summary();
 }

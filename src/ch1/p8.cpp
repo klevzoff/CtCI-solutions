@@ -1,3 +1,6 @@
+#include "testing.hpp"
+#include "printing.hpp"
+
 #include <vector>
 #include <cassert>
 
@@ -62,16 +65,17 @@ void zero_rowcol(std::vector<T> & mat, size_t M, size_t N)
   for (size_t j = 0; j < N; ++j) v(idx_row, j) = T(0);
 }
 
-bool test(std::vector<int> m, size_t M, size_t N, std::vector<int> const & e)
+void test(std::vector<int> m, size_t M, size_t N, std::vector<int> const & e)
 {
   zero_rowcol(m, M, N);
-  return m == e;
+  EXPECT_EQ(m, e);
 }
 
 int main()
 {
-  assert(test({}, 0, 0, {}));
-  assert(test({1}, 1, 1, {1}));
-  assert(test({1,2,3,0}, 2, 2, {1,0,0,0}));
-  assert(test({1,2,3,0,5,0,7,8,9,0,11,12}, 4, 3, {0,2,0,0,0,0,0,8,0,0,0,0}));
+  test({}, 0, 0, {});
+  test({1}, 1, 1, {1});
+  test({1,2,3,0}, 2, 2, {1,0,0,0});
+  test({1,2,3,0,5,0,7,8,9,0,11,12}, 4, 3, {0,2,0,0,0,0,0,8,0,0,0,0});
+  return testing::summary();
 }

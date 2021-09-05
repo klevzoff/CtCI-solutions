@@ -1,12 +1,12 @@
-#include <List.hpp>
+#include "List.hpp"
+#include "testing.hpp"
 
-#include <cassert>
 #include <utility>
 
 /**
  * @brief Sum Lists.
  *
- * Add tow numbers represented as singly linked lists of digits.
+ * Add two numbers represented as singly linked lists of digits.
  * This version is for reverse representation (least significant digit first).
  * Time complexity: O(max(Na, Nb)).
  * Space complexity: O(1), not including space for result.
@@ -133,31 +133,32 @@ FwdList<T> sum_lists_forward(FwdList<T> const & a, FwdList<T> const & b)
   return FwdList<T>{ hr };
 }
 
-bool test_reverse(FwdList<int> const & a, FwdList<int> const & b, FwdList<int> const & e)
+void test_reverse(FwdList<int> const & a, FwdList<int> const & b, FwdList<int> const & e)
 {
-  return sum_lists_reverse(a, b) == e;
+  EXPECT_EQ(sum_lists_reverse(a, b), e);
 }
 
-bool test_forward(FwdList<int> const & a, FwdList<int> const & b, FwdList<int> const & e)
+void test_forward(FwdList<int> const & a, FwdList<int> const & b, FwdList<int> const & e)
 {
-  return sum_lists_forward(a, b) == e;
+  EXPECT_EQ(sum_lists_forward(a, b), e);
 }
 
 int main()
 {
-  assert(test_reverse({}, {}, {}));
-  assert(test_reverse({1}, {1}, {2}));
-  assert(test_reverse({7}, {8}, {5,1}));
-  assert(test_reverse({6,1}, {5}, {1,2}));
-  assert(test_reverse({5}, {6,1}, {1,2}));
-  assert(test_reverse({7,1,6}, {5,9,2}, {2,1,9}));
-  assert(test_reverse({9,7,8}, {6,8,5}, {5,6,4,1}));
+  test_reverse({}, {}, {});
+  test_reverse({1}, {1}, {2});
+  test_reverse({7}, {8}, {5,1});
+  test_reverse({6,1}, {5}, {1,2});
+  test_reverse({5}, {6,1}, {1,2});
+  test_reverse({7,1,6}, {5,9,2}, {2,1,9});
+  test_reverse({9,7,8}, {6,8,5}, {5,6,4,1});
 
-  assert(test_forward({}, {}, {}));
-  assert(test_forward({1}, {1}, {2}));
-  assert(test_forward({7}, {8}, {1,5}));
-  assert(test_forward({1,6}, {5}, {2,1}));
-  assert(test_forward({5}, {1,6}, {2,1}));
-  assert(test_forward({6,1,7}, {2,9,5}, {9,1,2}));
-  assert(test_forward({8,7,9}, {5,8,6}, {1,4,6,5}));
+  test_forward({}, {}, {});
+  test_forward({1}, {1}, {2});
+  test_forward({7}, {8}, {1,5});
+  test_forward({1,6}, {5}, {2,1});
+  test_forward({5}, {1,6}, {2,1});
+  test_forward({6,1,7}, {2,9,5}, {9,1,2});
+  test_forward({8,7,9}, {5,8,6}, {1,4,6,5});
+  return testing::summary();
 }

@@ -1,6 +1,6 @@
 #include "Tree.hpp"
+#include "testing.hpp"
 
-#include <cassert>
 #include <unordered_map>
 
 namespace impl
@@ -37,24 +37,25 @@ size_t num_paths_with_sum(BinaryTree<T> const & tree, T const & target_sum)
 
 int main()
 {
-  assert(num_paths_with_sum<int>({}, 0) == 0);
-  assert(num_paths_with_sum<int>({}, 1) == 0);
-  assert(num_paths_with_sum<int>({{0,-1,-1,1}}, 1) == 1);
-  assert(num_paths_with_sum<int>({{0,-1,-1,1}}, 0) == 0);
-  assert(num_paths_with_sum<int>({{0,-1,-1,1}}, 2) == 0);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}}, -1) == 0);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  0) == 0);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  1) == 1);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  2) == 1);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  3) == 2);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  4) == 1);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  5) == 0);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}}, -2) == 0);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}}, -1) == 1);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  0) == 0);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  1) == 3);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  2) == 2);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  3) == 3);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  4) == 2);
-  assert(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  5) == 0);
+  EXPECT_EQ(num_paths_with_sum<int>({}, 0), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({}, 1), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,-1,-1,1}}, 1), 1u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,-1,-1,1}}, 0), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,-1,-1,1}}, 2), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}}, -1), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  0), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  1), 1u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  2), 1u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  3), 2u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  4), 1u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,-1,-1,2},{2,-1,-1,3}},  5), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}}, -2), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}}, -1), 1u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  0), 0u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  1), 3u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  2), 2u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  3), 3u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  4), 2u);
+  EXPECT_EQ(num_paths_with_sum<int>({{0,1,2,1},{1,3,4,2},{2,-1,-1,3},{3,-1,-1,1},{4,-1,-1,-1}},  5), 0u);
+  return testing::summary();
 }

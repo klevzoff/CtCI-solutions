@@ -1,6 +1,6 @@
-#include <List.hpp>
+#include "List.hpp"
+#include "testing.hpp"
 
-#include <cassert>
 #include <unordered_set>
 
 /**
@@ -55,24 +55,25 @@ void remove_duplicates_v2(FwdList<T> & l)
 }
 
 template <typename F>
-bool test_solution(FwdList<int> l, FwdList<int> const & e, F f)
+void test_solution(FwdList<int> l, FwdList<int> const & e, F f)
 {
   f(l);
-  return l == e;
+  EXPECT_EQ(l, e);
 }
 
-bool test(FwdList<int> const & l, FwdList<int> const & e)
+void test(FwdList<int> const & l, FwdList<int> const & e)
 {
-  return test_solution(l, e, remove_duplicates<int>)
-      && test_solution(l, e, remove_duplicates_v2<int>);
+  test_solution(l, e, remove_duplicates<int>);
+  test_solution(l, e, remove_duplicates_v2<int>);
 }
 
 int main()
 {
-  assert(test({}, {}));
-  assert(test({1}, {1}));
-  assert(test({1,1,1}, {1}));
-  assert(test({1,2,3}, {1,2,3}));
-  assert(test({1,1,2,3}, {1,2,3}));
-  assert(test({5,2,4,2,1,5,3}, {5,2,4,1,3}));
+  test({}, {});
+  test({1}, {1});
+  test({1,1,1}, {1});
+  test({1,2,3}, {1,2,3});
+  test({1,1,2,3}, {1,2,3});
+  test({5,2,4,2,1,5,3}, {5,2,4,1,3});
+  return testing::summary();
 }

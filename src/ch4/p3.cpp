@@ -1,5 +1,7 @@
 #include "Tree.hpp"
 #include "List.hpp"
+#include "testing.hpp"
+#include "printing.hpp"
 
 #include <cassert>
 
@@ -43,18 +45,19 @@ std::vector<List<T>> make_level_lists(BinaryTree<T> const & tree)
   return result;
 }
 
-bool test(BinaryTree<int> const & tree,
+void test(BinaryTree<int> const & tree,
           std::vector<List<int>> const & expected)
 {
-  return make_level_lists(tree) == expected;
+  EXPECT_EQ(make_level_lists(tree), expected);
 }
 
 int main()
 {
-  assert(test({}, {}));
-  assert(test({{0,-1,-1,0}}, {{0}}));
-  assert(test({{0,1,2,0},{1,-1,-1,1},{2,-1,-1,2}}, {{0},{1,2}}));
-  assert(test({{0,1,2,0},{1,-1,-1,1},{2,3,-1,2},{3,-1,-1,3}}, {{0},{1,2},{3}}));
-  assert(test({{0,1,2,0},{1,-1,4,1},{2,3,-1,2},{3,-1,-1,3},{4,-1,-1,4}}, {{0},{1,2},{4,3}}));
-  assert(test({{0,1,2,0},{1,-1,4,1},{2,3,-1,2},{3,-1,5,3},{4,-1,-1,4},{5,-1,-1,5}}, {{0},{1,2},{4,3},{5}}));
+  test({}, {});
+  test({{0,-1,-1,0}}, {{0}});
+  test({{0,1,2,0},{1,-1,-1,1},{2,-1,-1,2}}, {{0},{1,2}});
+  test({{0,1,2,0},{1,-1,-1,1},{2,3,-1,2},{3,-1,-1,3}}, {{0},{1,2},{3}});
+  test({{0,1,2,0},{1,-1,4,1},{2,3,-1,2},{3,-1,-1,3},{4,-1,-1,4}}, {{0},{1,2},{4,3}});
+  test({{0,1,2,0},{1,-1,4,1},{2,3,-1,2},{3,-1,5,3},{4,-1,-1,4},{5,-1,-1,5}}, {{0},{1,2},{4,3},{5}});
+  return testing::summary();
 }

@@ -1,7 +1,11 @@
+#include "testing.hpp"
+
 #include <cstdint>
-#include <cassert>
 #include <algorithm>
 
+/**
+ * @brief Find length of the longest sequence of 1s created by flipping a single bit.
+ */
 unsigned longest_bitseq_flip(std::uint32_t n)
 {
   unsigned prev = 0;
@@ -25,9 +29,10 @@ unsigned longest_bitseq_flip(std::uint32_t n)
 
 int main()
 {
-  assert(longest_bitseq_flip(0b0) == 1);
-  assert(longest_bitseq_flip(0b1010101010101) == 3);
-  assert(longest_bitseq_flip(0b111001110111) == 7);
-  assert(longest_bitseq_flip(0b11011101111) == 8);
-  assert(longest_bitseq_flip(0b11100111) == 4);
+  EXPECT_EQ(longest_bitseq_flip(0b0u), 1u);
+  EXPECT_EQ(longest_bitseq_flip(0b1010101010101u), 3u);
+  EXPECT_EQ(longest_bitseq_flip(0b111001110111u), 7u);
+  EXPECT_EQ(longest_bitseq_flip(0b11011101111u), 8u);
+  EXPECT_EQ(longest_bitseq_flip(0b11100111u), 4u);
+  return testing::summary();
 }

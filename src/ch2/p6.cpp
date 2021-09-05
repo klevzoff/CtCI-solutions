@@ -1,6 +1,6 @@
-#include <List.hpp>
+#include "List.hpp"
+#include "testing.hpp"
 
-#include <cassert>
 #include <utility>
 
 template <typename T>
@@ -33,12 +33,13 @@ bool is_palindrome(FwdList<T> const & l)
 
 int main()
 {
-  assert(is_palindrome<int>({}));
-  assert(is_palindrome<int>({1}));
-  assert(is_palindrome<int>({1,2,1}));
-  assert(is_palindrome<int>({2,1,1,2}));
-  assert(is_palindrome<int>({3,5,1,5,3}));
-  assert(!is_palindrome<int>({1,2}));
-  assert(!is_palindrome<int>({1,2,3}));
-  assert(!is_palindrome<int>({2,3,1,4,2}));
+  EXPECT(is_palindrome<int>({}));
+  EXPECT(is_palindrome<int>({1}));
+  EXPECT(is_palindrome<int>({1,2,1}));
+  EXPECT(is_palindrome<int>({2,1,1,2}));
+  EXPECT(is_palindrome<int>({3,5,1,5,3}));
+  EXPECT(!is_palindrome<int>({1,2}));
+  EXPECT(!is_palindrome<int>({1,2,3}));
+  EXPECT(!is_palindrome<int>({2,3,1,4,2}));
+  return testing::summary();
 }

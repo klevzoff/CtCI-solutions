@@ -1,5 +1,6 @@
+#include "testing.hpp"
+
 #include <string>
-#include <cassert>
 
 /**
  * @brief Palindrome permutation.
@@ -24,12 +25,13 @@ bool is_palindrome_perm(std::string const & s)
 
 int main()
 {
-  assert(is_palindrome_perm(""));
-  assert(is_palindrome_perm("a"));
-  assert(is_palindrome_perm("aaa"));
-  assert(is_palindrome_perm("baa"));
-  assert(is_palindrome_perm("aabb"));
-  assert(is_palindrome_perm("ababc"));
-  assert(!is_palindrome_perm("abc"));
-  assert(!is_palindrome_perm("aabc"));
+  EXPECT(is_palindrome_perm(""));
+  EXPECT(is_palindrome_perm("a"));
+  EXPECT(is_palindrome_perm("aaa"));
+  EXPECT(is_palindrome_perm("baa"));
+  EXPECT(is_palindrome_perm("aabb"));
+  EXPECT(is_palindrome_perm("ababc"));
+  EXPECT(!is_palindrome_perm("abc"));
+  EXPECT(!is_palindrome_perm("aabc"));
+  return testing::summary();
 }

@@ -1,5 +1,6 @@
+#include "testing.hpp"
+
 #include <string>
-#include <cassert>
 
 /**
  * @brief Is Unique
@@ -22,9 +23,10 @@ bool all_unique_chars(std::string const & s)
 
 int main()
 {
-  assert(all_unique_chars(""));
-  assert(all_unique_chars("a"));
-  assert(all_unique_chars("abc"));
-  assert(!all_unique_chars("aa"));
-  assert(!all_unique_chars("abcdefgb"));
+  EXPECT(all_unique_chars(""));
+  EXPECT(all_unique_chars("a"));
+  EXPECT(all_unique_chars("abc"));
+  EXPECT(!all_unique_chars("aa"));
+  EXPECT(!all_unique_chars("abcdefgb"));
+  return testing::summary();
 }

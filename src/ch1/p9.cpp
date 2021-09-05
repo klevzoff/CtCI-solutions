@@ -1,3 +1,5 @@
+#include "testing.hpp"
+
 #include <string>
 #include <cassert>
 
@@ -21,11 +23,12 @@ bool is_rotation(std::string const & s1, std::string const & s2)
 
 int main()
 {
-  assert(is_rotation("", ""));
-  assert(is_rotation("a", "a"));
-  assert(is_rotation("ab", "ba"));
-  assert(is_rotation("abba", "baab"));
-  assert(is_rotation("aabb", "baab"));
-  assert(!is_rotation("a", "b"));
-  assert(!is_rotation("aabb", "baba"));
+  EXPECT(is_rotation("", ""));
+  EXPECT(is_rotation("a", "a"));
+  EXPECT(is_rotation("ab", "ba"));
+  EXPECT(is_rotation("abba", "baab"));
+  EXPECT(is_rotation("aabb", "baab"));
+  EXPECT(!is_rotation("a", "b"));
+  EXPECT(!is_rotation("aabb", "baba"));
+  return testing::summary();
 }

@@ -1,6 +1,5 @@
-#include <List.hpp>
-
-#include <cassert>
+#include "List.hpp"
+#include "testing.hpp"
 
 /**
  * @brief Intersection.
@@ -49,9 +48,13 @@ check_intersection(typename FwdList<T>::Node * a, typename FwdList<T>::Node * b)
  *  - if n >= 0, tail of list b is "attached" to n-th node of list a and that node is the expected answer.
  * At the end, list b is detached to allow for safe destruction.
  */
-bool test(FwdList<int> const & a, FwdList<int> const & b, int n)
+void test(FwdList<int> const & a, FwdList<int> const & b, int n)
 {
-  if (n < 0) return check_intersection<int>(a.head, b.head) == nullptr;
+  if (n < 0)
+  {
+    EXPECT_EQ(check_intersection<int>(a.head, b.head), nullptr);
+    return;
+  }
 
   auto node = a.head;
   for (; n > 0 && node; --n) node = node->next;
@@ -61,22 +64,22 @@ bool test(FwdList<int> const & a, FwdList<int> const & b, int n)
     auto blast = b.head;
     for (; blast && blast->next; blast = blast->next);
     blast->next = node;
-    bool res = check_intersection<int>(a.head, b.head) == node;
+    EXPECT_EQ(check_intersection<int>(a.head, b.head), node);
     blast->next = nullptr;
-    return res;
   }
   else
   {
-    return check_intersection<int>(a.head, node) == node;
+    EXPECT_EQ(check_intersection<int>(a.head, node), node);
   }
 }
 
 int main()
 {
-  assert(test({},{},-1));
-  assert(test({1,2},{3,4},-1));
-  assert(test({1,2,3},{4,5,6},1));
-  assert(test({1,2,3},{},1));
-  assert(test({1},{2,3},0));
-  assert(test({1,2,3},{1},2));
+  test({},{},-1);
+  test({1,2},{3,4},-1);
+  test({1,2,3},{4,5,6},1);
+  test({1,2,3},{},1);
+  test({1},{2,3},0);
+  test({1,2,3},{1},2);
+  return testing::summary();
 }

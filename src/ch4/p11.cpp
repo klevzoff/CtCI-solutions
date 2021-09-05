@@ -1,4 +1,5 @@
 #include "Tree.hpp"
+#include "testing.hpp"
 
 #include <cassert>
 #include <cstddef>
@@ -201,10 +202,11 @@ bool test(std::vector<int> const & input)
 
 int main()
 {
-  assert(test({0}));
-  assert(test({0,1}));
-  assert(test({1,0}));
-  assert(test({1,2,0}));
-  assert(test({1,0,2}));
-  assert(test({4,2,5,1,3,8,7}));
+  EXPECT(test({0}));
+  EXPECT(test({0,1}));
+  EXPECT(test({1,0}));
+  EXPECT(test({1,2,0}));
+  EXPECT(test({1,0,2}));
+  EXPECT(test({4,2,5,1,3,8,7}));
+  return testing::summary();
 }

@@ -1,8 +1,9 @@
 #include "Graph.hpp"
+#include "testing.hpp"
+#include "printing.hpp"
 
 #include <unordered_map>
 #include <queue>
-#include <cassert>
 
 /**
  * @brief Build Order.
@@ -66,21 +67,22 @@ std::vector<T> build_order(std::vector<T> const & projects,
   return result.size() == projects.size() ? result : std::vector<T>{};
 }
 
-bool test(std::vector<char> const & projects,
+void test(std::vector<char> const & projects,
           std::vector<std::pair<char,char>> const & deps,
           std::vector<char> const & expected)
 {
-  return build_order(projects, deps) == expected;
+  EXPECT_EQ(build_order(projects, deps), expected);
 }
 
 int main()
 {
-  assert(test({}, {}, {}));
-  assert(test({'a'}, {}, {'a'}));
-  assert(test({'a','b'}, {}, {'a','b'}));
-  assert(test({'a','b'}, {{'a','b'}}, {'a','b'}));
-  assert(test({'a','b','c'}, {{'a','b'}, {'b','c'}}, {'a','b','c'}));
-  assert(test({'a','b','c'}, {{'a','b'}, {'c','b'}}, {'a','c','b'}));
-  assert(test({'a','b','c'}, {{'b','a'}, {'b','c'}}, {'b','a','c'}));
-  assert(test({'a','b','c'}, {{'a','b'}, {'b','c'},{'c','a'}}, {}));
+  test({}, {}, {});
+  test({'a'}, {}, {'a'});
+  test({'a','b'}, {}, {'a','b'});
+  test({'a','b'}, {{'a','b'}}, {'a','b'});
+  test({'a','b','c'}, {{'a','b'}, {'b','c'}}, {'a','b','c'});
+  test({'a','b','c'}, {{'a','b'}, {'c','b'}}, {'a','c','b'});
+  test({'a','b','c'}, {{'b','a'}, {'b','c'}}, {'b','a','c'});
+  test({'a','b','c'}, {{'a','b'}, {'b','c'},{'c','a'}}, {});
+  return testing::summary();
 }

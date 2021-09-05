@@ -1,3 +1,6 @@
+#include "testing.hpp"
+#include "printing.hpp"
+
 #include <vector>
 #include <cmath>
 #include <cassert>
@@ -12,8 +15,8 @@
 template <typename T>
 void rotate_90(std::vector<T> & mat)
 {
-  auto const N = static_cast<size_t>(round(sqrt(size(mat))));
-  assert(N * N == size(mat));
+  auto const N = static_cast<size_t>(std::round(std::sqrt(std::size(mat))));
+  assert(N * N == std::size(mat));
 
   // Define a 2D accessor
   auto v = [&mat,N](size_t i, size_t j) -> T & { return mat[i * N + j]; };
@@ -32,16 +35,17 @@ void rotate_90(std::vector<T> & mat)
   }
 }
 
-bool test(std::vector<int> m, std::vector<int> const & e)
+void test(std::vector<int> m, std::vector<int> const & e)
 {
   rotate_90(m);
-  return m == e;
+  EXPECT_EQ(m, e);
 }
 
 int main()
 {
-  assert(test({}, {}));
-  assert(test({1}, {1}));
-  assert(test({1,2,3,4}, {3,1,4,2}));
-  assert(test({1,2,3,4,5,6,7,8,9}, {7,4,1,8,5,2,9,6,3}));
+  test({}, {});
+  test({1}, {1});
+  test({1,2,3,4}, {3,1,4,2});
+  test({1,2,3,4,5,6,7,8,9}, {7,4,1,8,5,2,9,6,3});
+  return testing::summary();
 }

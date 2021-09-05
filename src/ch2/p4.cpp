@@ -1,4 +1,5 @@
-#include <List.hpp>
+#include "List.hpp"
+#include "testing.hpp"
 
 #include <cassert>
 
@@ -45,18 +46,19 @@ void partition(FwdList<T> & l, T const pivot)
   }
 }
 
-bool test(FwdList<int> l, int const pivot, FwdList<int> const & e)
+void test(FwdList<int> l, int const pivot, FwdList<int> const & e)
 {
   partition(l, pivot);
-  return l == e;
+  EXPECT_EQ(l, e);
 }
 
 int main()
 {
-  assert(test({}, 5, {}));
-  assert(test({2,1}, 5, {2,1}));
-  assert(test({6,5}, 5, {6,5}));
-  assert(test({2,1,6,5}, 5, {2,1,6,5}));
-  assert(test({6,5,2,1}, 5, {2,1,6,5}));
-  assert(test({3,5,8,5,10,2,1}, 5, {3,2,1,5,8,5,10}));
+  test({}, 5, {});
+  test({2,1}, 5, {2,1});
+  test({6,5}, 5, {6,5});
+  test({2,1,6,5}, 5, {2,1,6,5});
+  test({6,5,2,1}, 5, {2,1,6,5});
+  test({3,5,8,5,10,2,1}, 5, {3,2,1,5,8,5,10});
+  return testing::summary();
 }

@@ -1,3 +1,5 @@
+#include "testing.hpp"
+
 #include <string>
 #include <cassert>
 #include <algorithm>
@@ -20,11 +22,12 @@ bool is_permutation(std::string const & s1, std::string const & s2)
 
 int main()
 {
-  assert(is_permutation("", ""));
-  assert(is_permutation("a", "a"));
-  assert(is_permutation("ab", "ba"));
-  assert(is_permutation("abcde", "dbace"));
-  assert(!is_permutation("", "a"));
-  assert(!is_permutation("a", "b"));
-  assert(!is_permutation("abcde", "dbacf"));
+  EXPECT(is_permutation("", ""));
+  EXPECT(is_permutation("a", "a"));
+  EXPECT(is_permutation("ab", "ba"));
+  EXPECT(is_permutation("abcde", "dbace"));
+  EXPECT(!is_permutation("", "a"));
+  EXPECT(!is_permutation("a", "b"));
+  EXPECT(!is_permutation("abcde", "dbacf"));
+  return testing::summary();
 }

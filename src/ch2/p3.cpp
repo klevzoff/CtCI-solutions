@@ -1,4 +1,5 @@
-#include <List.hpp>
+#include "List.hpp"
+#include "testing.hpp"
 
 #include <cassert>
 
@@ -26,17 +27,18 @@ void delete_middle_node(FwdList<T> & l, typename FwdList<T>::Node * node)
   delete next;
 }
 
-bool test(FwdList<int> l, size_t i, FwdList<int> const & e)
+void test(FwdList<int> l, size_t i, FwdList<int> const & e)
 {
   auto node = l.head;
   for (; i > 0; --i) node = node->next;
   delete_middle_node(l, node);
-  return l == e;
+  EXPECT_EQ(l, e);
 }
 
 int main()
 {
-  assert(test({1,2,3}, 1, {1,3}));
-  assert(test({1,2,3,4}, 1, {1,3,4}));
-  assert(test({1,2,3,4}, 2, {1,2,4}));
+  test({1,2,3}, 1, {1,3});
+  test({1,2,3,4}, 1, {1,3,4});
+  test({1,2,3,4}, 2, {1,2,4});
+  return testing::summary();
 }
