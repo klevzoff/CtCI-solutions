@@ -4,7 +4,9 @@
 #include <algorithm>
 
 /**
- * @brief Find length of the longest sequence of 1s created by flipping a single bit.
+ * @brief Flip bit to win.
+ *
+ * Find length of the longest sequence of 1s created by flipping a single bit.
  */
 unsigned longest_bitseq_flip(std::uint32_t n)
 {

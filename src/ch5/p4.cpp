@@ -5,8 +5,10 @@
 #include <utility>
 
 /**
- * @brief Given a number, return the next smallest and next largest integers with
- *        the same number of 1 bits in their binary representation.
+ * @brief Next number.
+ *
+ * Given a number, return the next smallest and next largest integers
+ * with the same number of 1 bits in their binary representation.
  */
 std::pair<std::uint32_t, std::uint32_t> next_number(std::uint32_t n)
 {

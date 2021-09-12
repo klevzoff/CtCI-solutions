@@ -4,7 +4,9 @@
 #include <cassert>
 
 /**
- * @brief Insert low bits of @src into positions [i,j] of @dst.
+ * @brief Insertion.
+ *
+ * Insert low bits of @src into positions [i,j] of @dst.
  * @pre 0 <= i <= j < 32
  */
 std::uint32_t insert_bits(std::uint32_t const dst,

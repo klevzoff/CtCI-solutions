@@ -4,8 +4,10 @@
 #include <cassert>
 
 /**
- * @brief Given a real number between 0 and 1, return the binary representation.
- *        If the number cannot be represented exactly in 32 bits, return "ERROR".
+ * @brief Binary to string.
+ *
+ * Given a real number between 0 and 1, return the binary representation.
+ * If the number cannot be represented exactly in 32 bits, return "ERROR".
  */
 std::string to_binary_string(double v)
 {

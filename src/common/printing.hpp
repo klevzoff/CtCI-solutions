@@ -2,9 +2,17 @@
 #include <utility>
 #include <iterator>
 #include <type_traits>
+#include <bitset>
+#include <cstddef>
 
 #ifndef CTCI_SOLUTIONS_PRINTING_HPP
 #define CTCI_SOLUTIONS_PRINTING_HPP
+
+std::ostream & operator<<(std::ostream & os, std::byte const & b)
+{
+  os << std::bitset<std::numeric_limits<unsigned char>::digits>(std::to_integer<unsigned char>(b));
+  return os;
+}
 
 namespace printing
 {
@@ -24,7 +32,7 @@ namespace printing
  * @return the stream P os
  */
 template<typename T, typename U>
-std::ostream & operator<<(std::ostream & os, std::pair<T, U> p)
+std::ostream & operator<<(std::ostream & os, std::pair<T, U> const & p)
 {
   os << '{' << p.first << ',' << p.second << '}';
   return os;
@@ -73,6 +81,7 @@ std::ostream & operator<<(std::ostream & os, R const & rng)
   {
     os << ',' <<*it;
   }
+  os << '}';
   return os;
 }
 
