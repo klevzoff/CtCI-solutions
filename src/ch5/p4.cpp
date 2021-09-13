@@ -2,44 +2,57 @@
 #include "printing.hpp"
 
 #include <cstdint>
-#include <utility>
+#include <cassert>
+#include <limits>
 
 /**
  * @brief Next number.
  *
- * Given a number, return the next smallest and next largest integers
- * with the same number of 1 bits in their binary representation.
+ * Given a number, return the next integer with the same number of 1 bits in binary.
  */
-std::pair<std::uint32_t, std::uint32_t> next_number(std::uint32_t n)
+std::uint32_t next_number(std::uint32_t const n)
 {
-  // smallest next number with same number of 1s is obtained by shifting
-  // highest 1 bit in the lowest 1-bit sequence up one position, which is
-  // equivalent to adding the corresponding power of 2.
-  int i;
-  for (i = 0; i < 32 && !(n & (1u << i)); ++i); // find first 1
-  for (; i < 32 && n & (1u << i); ++i); // find following 0
-  std::uint32_t const m = n + (1u << (i-1));
+  assert(n > 0);
+  assert(n < std::numeric_limits<std::uint32_t>::max());
+  int i = 0, ones = 0;
+  for (; i < 32 && !(n & (1u << i)); ++i); // find first 1
+  for (; i < 32 && n & (1u << i); ++i, ++ones); // find following 0 and count 1s in between
+  // Take all bits of n above i, plus 1 at i, plus lower 1s (one fewer) shifted all the way down
+  return (n & ((1ull << 32) - (1u << i))) | (1u << i) | ((1u << (ones-1)) - 1);
+}
 
-  // largest next number with same number of 1s is just sum of the highest bits
-  std::uint32_t M = 0;
-  int j = 32;
-  while (n != 0)
-  {
-    n &= n - 1;
-    M |= 1u << --j;
-  }
-
-  return {m, M};
+/**
+ * @brief Next number.
+ *
+ * Given a number, return the previous integer with the same number of 1 bits in binary.
+ */
+std::uint32_t prev_number(std::uint32_t const n)
+{
+  assert(n > 0);
+  assert(n < std::numeric_limits<std::uint32_t>::max());
+  int i = 0, zeros = 0;
+  for (; i < 32 && (n & (1u << i)); ++i); // find first 0
+  for (; i < 32 && !(n & (1u << i)); ++i, ++zeros); // find following 1 and count 0s in between
+  // Take all bits of n above i, plus 0 at i, plus lower 1s (one more) shifted all the way up to i-1
+  return (n & ((1ull << 32) - (1u << (i+1)))) | ((1u << i) - (1u << (zeros-1)));
 }
 
 int main()
 {
-  EXPECT_EQ(next_number(0b1u), std::make_pair(0b10u, 0b10000000000000000000000000000000u));
-  EXPECT_EQ(next_number(0b10u), std::make_pair(0b100u, 0b10000000000000000000000000000000u));
-  EXPECT_EQ(next_number(0b10000u), std::make_pair(0b100000u, 0b10000000000000000000000000000000u));
-  EXPECT_EQ(next_number(0b11u), std::make_pair(0b101u, 0b11000000000000000000000000000000u));
-  EXPECT_EQ(next_number(0b101u), std::make_pair(0b110u, 0b11000000000000000000000000000000u));
-  EXPECT_EQ(next_number(0b110u), std::make_pair(0b1010u, 0b11000000000000000000000000000000u));
-  EXPECT_EQ(next_number(0b111101110u), std::make_pair(0b111110110u, 0b11111110000000000000000000000000u));
+  EXPECT_EQ(next_number(0b01u), 0b10u);
+  EXPECT_EQ(next_number(0b010u), 0b100u);
+  EXPECT_EQ(next_number(0b010000u), 0b100000u);
+  EXPECT_EQ(next_number(0b011u), 0b101u);
+  EXPECT_EQ(next_number(0b101u), 0b110u);
+  EXPECT_EQ(next_number(0b0110u), 0b1001u);
+  EXPECT_EQ(next_number(0b111101110u), 0b111110011u);
+
+  EXPECT_EQ(prev_number(0b10u), 0b01u);
+  EXPECT_EQ(prev_number(0b100u), 0b010u);
+  EXPECT_EQ(prev_number(0b100000u), 0b010000u);
+  EXPECT_EQ(prev_number(0b101u), 0b011u);
+  EXPECT_EQ(prev_number(0b110u), 0b101u);
+  EXPECT_EQ(prev_number(0b1001u), 0b0110u);
+  EXPECT_EQ(prev_number(0b111110011u), 0b111101110u);
   return testing::summary();
 }

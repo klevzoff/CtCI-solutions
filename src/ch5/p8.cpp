@@ -12,7 +12,9 @@ constexpr int NBIT = std::numeric_limits<unsigned char>::digits;
 /// Generates a byte with bit pattern set in [lo;hi) half-open range.
 std::byte bits(unsigned const lo, unsigned const hi)
 {
-  return static_cast<std::byte>((1 << hi) - (1 << lo));
+  assert(hi <= NBIT);
+  assert(lo <= hi);
+  return static_cast<std::byte>((1u << hi) - (1u << lo));
 }
 
 /**
